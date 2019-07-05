@@ -86,7 +86,7 @@ function loadMessages() {
 		  else{
 			  var message = change.doc.data();
 			  displayMessage(change.doc.id, message.timestamp, message.name, 
-							message.text, message.profilePicUrl, message.imageURL);
+							message.text, message.profilePicUrl, message.imageUrl);
 		  }
 	  });
   });
