@@ -1,5 +1,5 @@
-importScripts('/__/firebase/6.0.4/firebase-app.js');
-importScripts('/__/firebase/6.0.4/firebase-messaging.js');
-importScripts('/__/firebase/init.js');
+importScripts('https://www.gstatic.com/firebasejs/6.2.4/firebase/6.2.4/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/6.2.4/firebase/6.2.4/firebase-messaging.js');
+importScripts('scripts/init.js');
 
 firebase.messaging();
