@@ -291,7 +291,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     messageListElement.insertBefore(div, child);
   }
   if (picUrl) {
-    div.querySelector('.pic').style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
+    div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
   }
   div.querySelector('.name').textContent = name;
   var messageElement = div.querySelector('.message');
