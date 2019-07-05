@@ -273,6 +273,7 @@ function deleteMessage(id) {
 
 // Displays a Message in the UI.
 function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
+	console.log(id,"=", timestamp,"=", name,"=", text,"=", picUrl,"=", imageUrl);
   var div = document.getElementById(id);
   // If an element for that message does not exists yet we create it.
   if (!div) {
