@@ -281,14 +281,14 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div = container.firstChild;
     div.setAttribute('id', id);
     div.setAttribute('timestamp', timestamp);
-    for (var i = 0; i < messageListElement.children.length; i++) {
-      var child = messageListElement.children[i];
-      var time = child.getAttribute('timestamp');
-      if (time && time > timestamp) {
-        break;
-      }
-    }
-    messageListElement.insertBefore(div, child);
+//    for (var i = 0; i < messageListElement.children.length; i++) {
+//      var child = messageListElement.children[i];
+//      var time = child.getAttribute('timestamp');
+//      if (time && time > timestamp) {
+//        break;
+//      }
+//    }
+    messageListElement.appendChild(div);
   }
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
