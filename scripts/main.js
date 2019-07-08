@@ -97,7 +97,7 @@ function loadMessages() {
 // 메신저에서 사진을 올리면 storage에 저장만
 function saveImageMessage(file) {
   // TODO 9: Posts a new image as a message.
-  //1- We add a message with a loading icon tha will get updated with the shared image.
+  //1- We add a message with a loading icon that will get updated with the shared image.
   //text 대신에 imageUrl
   firebase.firestore().collection('messages').add({
 	  name: getUserName(),
