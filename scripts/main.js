@@ -79,8 +79,6 @@ function loadMessages() {
 					  
   //Start listening to the query.
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
-  //밑에 한줄 내가 추가
-  query.orderBy('timestamp', 'asc');
   query.onSnapshot(function(snapshot){
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
