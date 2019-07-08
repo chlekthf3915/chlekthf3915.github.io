@@ -74,11 +74,13 @@ function loadMessages() {
   //.collection을 이용해 어떤 컬렉션이 청취할 데이터인지 지정 (우리는 'messages' 컬렉션)
   var query = firebase.firestore()
 					  .collection('messages')
-					  .orderBy('timestamp', 'asc')
+					  .orderBy('timestamp', 'desc')
 					  .limit(12);
 					  
   //Start listening to the query.
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
+  //밑에 한줄 내가 추가
+  query.orderBy('timestamp', 'asc');
   query.onSnapshot(function(snapshot){
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
