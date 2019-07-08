@@ -74,7 +74,7 @@ function loadMessages() {
   //.collection을 이용해 어떤 컬렉션이 청취할 데이터인지 지정 (우리는 'messages' 컬렉션)
   var query = firebase.firestore()
 					  .collection('messages')
-					  .orderBy('timestamp', 'desc')
+					  .orderBy('timestamp', 'asc')
 					  .limit(12);
 					  
   //Start listening to the query.
