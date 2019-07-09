@@ -15,9 +15,6 @@
  */
 'use strict';
 
-initFirebaseAuth();
-
-
 // Signs-in Friendly Chat.
 function signIn() {
   // TODO 1: Sign in Firebase with credential from the Google user.
@@ -83,6 +80,7 @@ function loadMessages() {
   //Start listening to the query.
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
   query.onSnapshot(function(snapshot){
+	  console.log(snapshot.docChanges());
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
 			  deleteMessage(change.doc.id);
@@ -370,7 +368,7 @@ imageButtonElement.addEventListener('click', function(e) {
 mediaCaptureElement.addEventListener('change', onMediaFileSelected);
 
 // initialize Firebase
-
+initFirebaseAuth();
 
 // Remove the warning about timstamps change. 
 var firestore = firebase.firestore();
