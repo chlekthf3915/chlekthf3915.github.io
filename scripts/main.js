@@ -86,8 +86,8 @@ function loadMessages() {
 			  deleteMessage(change.doc.id);
 		  else{
 			  var message = change.doc.data();
-			  console.log("89", message.timestamp.seconds);
-			  obj.push([change.doc.id, message.timestamp.seconds, message.name, 
+			  console.log("89", message.timestamp);
+			  obj.push([change.doc.id, message.timestamp, message.name, 
 							message.text, message.profilePicUrl, message.imageUrl]);
 			  
 		  }
