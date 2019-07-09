@@ -85,14 +85,10 @@ function loadMessages() {
 		  if(change.type == 'removed')
 			  deleteMessage(change.doc.id);
 		  else{
-			  var message = change.doc.data();
-			  if(message.timestamp.seconds == null)
-				message.timestamp.seconds = Math.floor(new Date().getTime()/1000.0);
-			  else{	  
+				var message = change.doc.data(); 
 			    console.log("89", message.timestamp.seconds);
-			    obj.push([change.doc.id, message.timestamp.seconds, message.name, 
+			    obj.push([change.doc.id, Math.floor(new Date().getTime()/1000.0), message.name, 
 							message.text, message.profilePicUrl, message.imageUrl]);
-			  }
 		  }
 	  });
 
