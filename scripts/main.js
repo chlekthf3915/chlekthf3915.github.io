@@ -88,8 +88,7 @@ function loadMessages() {
 			  var message = change.doc.data();
 			  obj.push([change.doc.id, message.timestamp.seconds, message.name, 
 							message.text, message.profilePicUrl, message.imageUrl]);
-			  displayMessage(change.doc.id, message.timestamp, message.name, 
-							message.text, message.profilePicUrl, message.imageUrl);
+			  
 		  }
 	  });
 
@@ -98,6 +97,11 @@ function loadMessages() {
 		
 	})
 	console.log(obj);
+	obj.forEach(function(data){
+		displayMessage(data[0],data[1], data[2], data[3], data[4], data[5]);
+	})
+	
+	
   });
 }
 
