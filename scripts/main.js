@@ -81,7 +81,7 @@ function loadMessages() {
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
   query.onSnapshot(function(snapshot){
 	  var obj = [];
-	  snapshot.docChanges.orderBy('timestamp', 'asc').forEach(function(change){
+	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
 			  deleteMessage(change.doc.id);
 		  else{
@@ -92,7 +92,12 @@ function loadMessages() {
 							message.text, message.profilePicUrl, message.imageUrl);
 		  }
 	  });
-//	  console.log(obj);
+
+	obj.sort(a, b){
+		return a[1]-b[1];
+		
+	};
+	console.log(obj);
   });
 }
 
