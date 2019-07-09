@@ -80,16 +80,20 @@ function loadMessages() {
   //Start listening to the query.
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
   query.onSnapshot(function(snapshot){
+	  var obj = [];
 	  console.log(snapshot.docChanges());
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
 			  deleteMessage(change.doc.id);
 		  else{
 			  var message = change.doc.data();
+			  obj.push([change.doc.id, message.timestamp, message.name, 
+							message.text, message.profilePicUrl, message.imageUrl]);
 			  displayMessage(change.doc.id, message.timestamp, message.name, 
 							message.text, message.profilePicUrl, message.imageUrl);
 		  }
 	  });
+	  console.log(obj);
   });
 }
 
