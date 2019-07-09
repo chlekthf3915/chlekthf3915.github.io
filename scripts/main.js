@@ -15,6 +15,9 @@
  */
 'use strict';
 
+initFirebaseAuth();
+
+
 // Signs-in Friendly Chat.
 function signIn() {
   // TODO 1: Sign in Firebase with credential from the Google user.
@@ -367,7 +370,7 @@ imageButtonElement.addEventListener('click', function(e) {
 mediaCaptureElement.addEventListener('change', onMediaFileSelected);
 
 // initialize Firebase
-initFirebaseAuth();
+
 
 // Remove the warning about timstamps change. 
 var firestore = firebase.firestore();
