@@ -86,10 +86,13 @@ function loadMessages() {
 			  deleteMessage(change.doc.id);
 		  else{
 			  var message = change.doc.data();
-			  console.log("89", message.timestamp);
-			  obj.push([change.doc.id, message.timestamp, message.name, 
+			  if(message.timestamp.seconds == null)
+				message.timestamp.seconds = Math.floor(new Date().getTime()/1000.0);
+			  else{	  
+			    console.log("89", message.timestamp.seconds);
+			    obj.push([change.doc.id, message.timestamp.seconds, message.name, 
 							message.text, message.profilePicUrl, message.imageUrl]);
-			  
+			  }
 		  }
 	  });
 
