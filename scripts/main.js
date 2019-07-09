@@ -80,32 +80,16 @@ function loadMessages() {
   //Start listening to the query.
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
   query.onSnapshot(function(snapshot){
-	  var obj = [];
+//	  var obj = [];
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
 			  deleteMessage(change.doc.id);
 		  else{
 			  var message = change.doc.data();
-			  if(message.timestamp.seconds == null)
-				message.timestamp.seconds = Math.floor(new Date().getTime()/1000.0);
-			  else{	  
-//			    console.log("89", message.timestamp.seconds);
-			    obj.push([change.doc.id, Math.floor(new Date().getTime()/1000.0), message.name, 
-							message.text, message.profilePicUrl, message.imageUrl]);
+			  displayMessage(change.doc.id, message.timestamp, message.name,
+                       message.text, message.profilePicUrl, message.imageUrl);
 			  }
-		  }
 	  });
-
-	obj.sort(function(a, b){
-		return a[1]-b[1];
-		
-	})
-	console.log(obj);
-	obj.forEach(function(data){
-		displayMessage(data[0],data[1], data[2], data[3], data[4], data[5]);
-	})
-	
-	
   });
 }
 
@@ -289,7 +273,6 @@ function deleteMessage(id) {
 
 // Displays a Message in the UI.
 function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
-	console.log(id,"=", timestamp,"=", name,"=", text,"=", picUrl,"=", imageUrl);
   var div = document.getElementById(id);
   // If an element for that message does not exists yet we create it.
   if (!div) {
@@ -298,14 +281,14 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div = container.firstChild;
     div.setAttribute('id', id);
     div.setAttribute('timestamp', timestamp);
-//    for (var i = 0; i < messageListElement.children.length; i++) {
-//      var child = messageListElement.children[i];
-//      var time = child.getAttribute('timestamp');
-//      if (time && time > timestamp) {
-//        break;
-//      }
-//    }
-    messageListElement.appendChild(div);
+    for (var i = 0; i < messageListElement.children.length; i++) {
+		var child = messageListElement.children[i];
+		var time = child.getAttribute('timestamp');
+		if (time && time > timestamp) {
+			break;
+		}	
+    }
+    messageListElement.insertBefore(div, child);
   }
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
