@@ -28,7 +28,7 @@ function signOut() {
   firebase.auth().signOut();
 }
 
-// Initiate firebase auth.인증상태확인?
+// Initiate firebase auth.
 function initFirebaseAuth() {
   // TODO 3: Initialize Firebase.
   firebase.auth().onAuthStateChanged(authStateObserver);
@@ -79,6 +79,7 @@ function loadMessages() {
 					  
   //Start listening to the query.
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
+  console.log(query);
   query.onSnapshot(function(snapshot){
 //	  var obj = [];
 	  snapshot.docChanges().forEach(function(change){
