@@ -196,6 +196,7 @@ main, #messages-card {
 }
 .mdl-textfield--floating-label.is-focused .mdl-textfield__label {
   color: #0288D1;
+  color: #0288D1;
 }
 .mdl-button .material-icons {
   top: -1px;
@@ -224,7 +225,7 @@ main, #messages-card_ {
   display: flex;
   flex-direction: column;
 }
-#message-filler {
+#message-filler_ {
   flex-grow: 1;
 }
 #message-form_ {
