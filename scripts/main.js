@@ -383,8 +383,8 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
 	
 	//여기 추가함
-	picURL.addEventListener('click', function(){
-		this.removeAttribute('hidden');
+	picUrl.addEventListener('click', function(){
+		picUrl.removeAttribute('hidden');
 		
 	});
   }
