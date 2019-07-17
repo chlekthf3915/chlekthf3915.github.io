@@ -384,7 +384,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 	
 	//여기 추가함
 	picURL.addEventListener('click', function(){
-		picURL.removeAttribute('hidden');
+		this.removeAttribute('hidden');
 		
 	});
   }
