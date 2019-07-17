@@ -383,10 +383,9 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
 	
 	//여기 추가함
-	var card = messageCardElement_;
 	picUrl.addEventListener('click', function(e){
 	  e.preventDefault();
-	  card.removeAttribute('hidden');
+	  messageCardElement_.removeAttribute('hidden');
 	});
 		
 	
@@ -473,7 +472,7 @@ var submitButtonElement_ = document.getElementById('submit_');
 var imageButtonElement_ = document.getElementById('submitImage_');
 var imageFormElement_ = document.getElementById('image-form_');
 var mediaCaptureElement_ = document.getElementById('mediaCapture_');
-var messageCardElement_ = document.getElementById('messages_card_');
+var messageCardElement_ = document.getElementById('messages-card_');
 
 
 
