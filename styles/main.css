@@ -21,6 +21,7 @@ main, #messages-card {
   height: 100%;
   padding-bottom: 0;
 }
+
 #messages-card-container {
   height: calc(100% - 35px);
   padding-bottom: 0;
@@ -116,6 +117,7 @@ main, #messages-card {
 #message-form .mdl-textfield {
   width: calc(100% - 100px);
 }
+
 #message-form button, #image-form button {
   width: 100px;
   margin: 15px 0 0 10px;
@@ -198,4 +200,60 @@ main, #messages-card {
 .mdl-button .material-icons {
   top: -1px;
   margin-right: 5px;
+}
+
+
+
+
+
+/* 밑에는 내가 추가한 것들 */
+main, #whispers-card {
+  height: 50%;
+  padding-bottom: 0;
+}
+#message-form_ .mdl-textfield {
+  width: calc(100% - 100px);
+}
+#whispers-card {
+  margin-top: 15px;
+}
+#whispers {
+  overflow-y: auto;
+  margin-bottom: 10px;
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+}
+#whisper-filler {
+  flex-grow: 1;
+}
+#message-form {
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 48px);
+  float: left;
+}
+#image-form {
+  display: flex;
+  flex-direction: row;
+  width: 48px;
+  float: right;
+}
+#message-form_ .mdl-textfield {
+  width: calc(100% - 100px);
+}
+#message-form_ button, #image-form_ button {
+  width: 100px;
+  margin: 15px 0 0 10px;
+}
+#image-form_ #submitImage_ {
+  width: auto;
+  padding: 0 6px 0 1px;
+  min-width: 0;
+}
+#image-form_ #submitImage_ .material-icons {
+  top: -1px;
+}
+#mediaCapture_ {
+  display: none;
 }
