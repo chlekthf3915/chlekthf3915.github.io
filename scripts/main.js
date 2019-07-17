@@ -335,8 +335,8 @@ function resetMaterialTextfield(element) {
 // Template for messages.
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
-							//여기 추가함 (id)
-      '<div class="spacing"><div id="pic"></div></div>' +
+											//여기 추가함 (id)
+      '<div class="spacing"><div class="pic" id="pic"></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
