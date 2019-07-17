@@ -115,7 +115,7 @@ main, #messages-card {
   float: right;
 }
 #message-form .mdl-textfield {
-  width: calc(100% - 100px);
+  width: calc(100% - 100px)/2;
 }
 
 #message-form button, #image-form button {
@@ -207,40 +207,37 @@ main, #messages-card {
 
 
 /* 밑에는 내가 추가한 것들 */
-main, #whispers-card {
+main, #messages-card_ {
   height: 50%;
   padding-bottom: 0;
 }
 #message-form_ .mdl-textfield {
   width: calc(100% - 100px);
 }
-#whispers-card {
+#messages-card_ {
   margin-top: 15px;
 }
-#whispers {
+#messages_ {
   overflow-y: auto;
   margin-bottom: 10px;
   height: calc(100% - 80px);
   display: flex;
   flex-direction: column;
 }
-#whisper-filler {
+#message-filler {
   flex-grow: 1;
 }
-#message-form {
+#message-form_ {
   display: flex;
   flex-direction: row;
   width: calc(100% - 48px);
   float: left;
 }
-#image-form {
+#image-form_ {
   display: flex;
   flex-direction: row;
   width: 48px;
   float: right;
-}
-#message-form_ .mdl-textfield {
-  width: calc(100% - 100px);
 }
 #message-form_ button, #image-form_ button {
   width: 100px;
