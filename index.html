@@ -101,6 +101,40 @@
           </form>
         </div>
       </div>
+	  
+	  
+	  
+	  <!-- 내가만듬. id는 _추가 -->
+	  <!-- mdl-card(는 div요소를 바깥 div에 필요한 mdl카드 컨테이너로 식별), mdl-cell(은 컨테이너를 mdl 셀로 식별, 내부 div 필요),  mdl-cell--N(은 셀의 열 크기를 N만큼) -->
+	  <div id="whisper-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--3-col-tablet mdl-cell--3-col-desktop">
+		<!-- mdl-card__supporting-text(카드 본문 텍스트 컨테이너로 식별하고 적절한 텍스트 특성을 지정), mdl-color-text-{colorname}-{shade}  -->
+		<div class="mdl-card__supporting-text mdl-color-text--grey-600">
+		  <!-- -->
+		  <div id="messages_">
+		    <span id="message-filler_"></span>
+		  </div>
+		  <form id="message-form_" action="#">
+			<!-- mdl-textfield(컨테이너를 mdl 구성 요소로 식별하여 외부 div에 필요),  mdl-js-textfield(기본 mdl 동작을 입력으로 설정)  -->
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			  <input class="mdl-textfield__input" type="text" id="message_">
+			  <label class="mdl-textfield__label" for="message_">Message...</label>
+			</div>
+			  <!--  mdl-button--raised(제기된 효과설정),  mdl-js-ripple-effect(리플 클릭 효과 설정)  -->
+			  <button id="submit_" disabled type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+				Send
+			  </button>
+		  </form>
+		  <form id="image-form_" action="#">
+			<input id="mediaCapture_" type="file" accept="image/*" capture="camera">
+			<button id="submitImage_" title="Add an image" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
+               <i class="material-icons">image</i>
+            </button>
+          </form>
+		</div>
+	  </div>
+
+
+
 
       <div id="must-signin-snackbar" class="mdl-js-snackbar mdl-snackbar">
         <div class="mdl-snackbar__text"></div>
