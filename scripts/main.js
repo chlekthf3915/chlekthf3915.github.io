@@ -381,6 +381,12 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   }
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
+	
+	//여기 추가함
+	picURL.addEventListener('click', function(){
+		picURL.removeAttribute('hidden');
+		
+	}
   }
   div.querySelector('.name').textContent = name;
   var messageElement = div.querySelector('.message');
