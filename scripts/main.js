@@ -335,7 +335,8 @@ function resetMaterialTextfield(element) {
 // Template for messages.
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
-      '<div class="spacing"><div class="pic"></div></div>' +
+							//여기 추가함 (id)
+      '<div class="spacing"><div id="pic"></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
@@ -401,8 +402,9 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   // Show the card fading-in and scroll to view the new message.
   setTimeout(function() {div.classList.add('visible')}, 1);
  
-	//여기 추가함
-	picUrl.addEventListener('click', showWhisper);
+  //여기 추가함
+  var pic = document.getElementById('pic');
+  pic.addEventListener('click', showWhisper);
 	
   messageListElement.scrollTop = messageListElement.scrollHeight;
   messageInputElement.focus();
