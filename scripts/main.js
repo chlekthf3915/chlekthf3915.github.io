@@ -417,7 +417,7 @@ function toggleButton() {
 //여기 추가함
 function toggleButton_() {
   if (messageInputElement_.value) {
-    submitButtonElement.removeAttribute('disabled');
+    submitButtonElement_.removeAttribute('disabled');
   }
   else {
     submitButtonElement_.setAttribute('disabled', 'true');
