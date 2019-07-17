@@ -383,10 +383,12 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
 	
 	//여기 추가함
-	picUrl.addEventListener('click', function(){
-		picUrl.removeAttribute('hidden');
-		
+	picUrl.addEventListener('click', function(e){
+	  e.preventDefault();
+	  messageCardElement_.removeAttribute('hidden');
 	});
+		
+	
   }
   div.querySelector('.name').textContent = name;
   var messageElement = div.querySelector('.message');
@@ -408,6 +410,11 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   messageListElement.scrollTop = messageListElement.scrollHeight;
   messageInputElement.focus();
 }
+
+
+
+
+
 
 // Enables or disables the submit button depending on the values of the input
 // fields.
@@ -465,6 +472,7 @@ var submitButtonElement_ = document.getElementById('submit_');
 var imageButtonElement_ = document.getElementById('submitImage_');
 var imageFormElement_ = document.getElementById('image-form_');
 var mediaCaptureElement_ = document.getElementById('mediaCapture_');
+var messageCardElement_ = document.getElementById('messages_card_');
 
 
 
