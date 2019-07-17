@@ -382,10 +382,6 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
 	
-	//여기 추가함
-	picUrl.addEventListener('click', showWhisper);
-		
-	
   }
   div.querySelector('.name').textContent = name;
   var messageElement = div.querySelector('.message');
@@ -404,6 +400,10 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   }
   // Show the card fading-in and scroll to view the new message.
   setTimeout(function() {div.classList.add('visible')}, 1);
+ 
+	//여기 추가함
+	picUrl.addEventListener('click', showWhisper);
+	
   messageListElement.scrollTop = messageListElement.scrollHeight;
   messageInputElement.focus();
 }
