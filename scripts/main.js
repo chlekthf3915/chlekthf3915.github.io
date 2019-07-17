@@ -386,7 +386,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 	picURL.addEventListener('click', function(){
 		picURL.removeAttribute('hidden');
 		
-	}
+	});
   }
   div.querySelector('.name').textContent = name;
   var messageElement = div.querySelector('.message');
