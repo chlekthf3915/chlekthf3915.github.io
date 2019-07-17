@@ -383,9 +383,10 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
 	
 	//여기 추가함
+	var card = messageCardElement_;
 	picUrl.addEventListener('click', function(e){
 	  e.preventDefault();
-	  messageCardElement_.removeAttribute('hidden');
+	  card.removeAttribute('hidden');
 	});
 		
 	
