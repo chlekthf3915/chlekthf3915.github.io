@@ -53,7 +53,6 @@ function isUserSignedIn() {
 }
 
 // Saves a new message on the Firebase DB.
-// 데이터베이스 구조는 message-1{name:, profilePicurl:, text:, timestmp:,,,}, message-2..
 function saveMessage(messageText) {
   // TODO 7: Push a new message to Firebase.
   //Add a new message entry to the Firebase database.
@@ -91,7 +90,6 @@ function loadMessages() {
 					  
   //Start listening to the query.
   //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
-  console.log(query);
   query.onSnapshot(function(snapshot){
 //	  var obj = [];
 	  snapshot.docChanges().forEach(function(change){
@@ -112,7 +110,6 @@ function loadMessages_() {
 					  .collection('whisper')
 					  .orderBy('timestamp', 'desc')
 					  .limit(12);
-  console.log(query);
   query.onSnapshot(function(snapshot){
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
@@ -270,6 +267,7 @@ function onMessageFormSubmit(e) {
   }
   //여기 추가함
   else if (messageInputElement_.value && checkSignedInWithMessage()) {
+	  console.log(messageInputElement_.value);
     saveMessage_(messageInputElement_.value).then(function() {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement_);
