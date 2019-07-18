@@ -109,6 +109,7 @@ function loadMessages() {
 
 //여기 추가함
 function loadMessages_() {
+  messageCardElement_.removeAttribute('hidden');
   var query = firebase.firestore()
 					  .collection('whispers')
 					  //여기 추가함
@@ -120,6 +121,7 @@ function loadMessages_() {
 		if(change.type == 'removed'){
 		  deleteMessage(change.doc.id);}
 		else{
+			console.log(18);
 		  var message = change.doc.data();
 		  displayMessage_(change.doc.id, message.timestamp, message.name, //여기 밑에 추가함
           message.text, message.profilePicUrl, message.imageUrl, message.to);
