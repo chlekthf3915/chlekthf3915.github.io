@@ -72,7 +72,9 @@ function saveMessage_(messageText) {
 	  name: getUserName(),
 	  text: messageText,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+	  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+	  //여기 추가함
+	  from: "김민수"
   }).catch(function(error){
 	  console.error('Error writing new message to Firebase Database', error);
   });
@@ -111,10 +113,8 @@ function loadMessages_() {
 					  .orderBy('timestamp', 'desc')
 					  .limit(12);
   query.onSnapshot(function(snapshot){
-	  console.log(18);
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed'){
-			  console.log(28);
 		  deleteMessage(change.doc.id);}
 		  else{
 			  var message = change.doc.data();
@@ -400,19 +400,13 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   }
   // Show the card fading-in and scroll to view the new message.
   setTimeout(function() {div.classList.add('visible')}, 1);
- 
-  //여기 추가함
-  var pic = document.getElementById('pic');
-  pic.addEventListener('click', showWhisper);
 	
   messageListElement.scrollTop = messageListElement.scrollHeight;
   messageInputElement.focus();
 }
 
-
 //여기 추가함
 function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
-	console.log(id);//
   var div = document.getElementById(id);
   // If an element for that message does not exists yet we create it.
   if (!div) {
@@ -456,11 +450,18 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
   messageInputElement_.focus();
 }
 
-//여기 추가함
-function showWhisper() {
-	 messageCardElement_.removeAttribute('hidden');
-}
 
+//여기 추가함
+  var pic = document.getElementById('pic');
+  pic.addEventListener('click', function(){
+	  //클릭한 사람이 나이면 그대로 안보이고
+	  //클릭한 사람이 A라면 whispers의 아이디가 A인것만 갖고옴..
+	  //그럴려면 whispers에 속성을 to, from추가
+	  //if(id=="김민수"){
+		messageCardElement_.removeAttribute('hidden');
+		
+	  //}
+  });
 
 
 
