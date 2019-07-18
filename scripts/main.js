@@ -104,26 +104,26 @@ function loadMessages() {
 			  }
 	  });
   });
-  //여기 추가함
-	loadMessages_();
+  
 }
 
 //여기 추가함
 function loadMessages_() {
   var query = firebase.firestore()
 					  .collection('whispers')
+					  //여기 추가함
+					  .where("to", "==", toWho)
 					  .orderBy('timestamp', 'desc')
 					  .limit(12);
   query.onSnapshot(function(snapshot){
 	  snapshot.docChanges().forEach(function(change){
-		  if(change.type == 'removed'){
+		if(change.type == 'removed'){
 		  deleteMessage(change.doc.id);}
-		  else{
-			  var message = change.doc.data();
-			  if(message.to=="김민수")
-				  displayMessage_(change.doc.id, message.timestamp, message.name, //여기 밑에 추가함
-                       message.text, message.profilePicUrl, message.imageUrl, "김민수");
-			  }
+		else{
+		  var message = change.doc.data();
+		  displayMessage_(change.doc.id, message.timestamp, message.name, //여기 밑에 추가함
+          message.text, message.profilePicUrl, message.imageUrl, message.to);
+		}
 	  });
   });
 }
@@ -166,7 +166,7 @@ function saveImageMessage_(file) {
 	  profilePicUrl: getProfilePicUrl(),
 	  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 	  //여기 추가함
-	  to: "김민수"
+	  to: toWho
   }).then(function(messageRef){
 	  //2- Upload the image to Cloud Storage.
 	  var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
@@ -413,8 +413,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   var pic = document.getElementById('pic');
   pic.addEventListener('click', function(){
 	toWho = name;
-    if(toWho == "김민수")
-		messageCardElement_.removeAttribute('hidden');
+	loadMessages_();
   });
   
 }
@@ -422,7 +421,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 var toWho;
 
 //여기 추가함
-function displayMessage_(id, timestamp, name, text, picUrl, imageUrl, to) {
+function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
   var div = document.getElementById(id);
   if (!div) {
     var container = document.createElement('div');
