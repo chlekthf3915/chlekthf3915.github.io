@@ -115,7 +115,9 @@ function loadMessages_() {
 		  if(change.type == 'removed')
 			  deleteMessage(change.doc.id);
 		  else{
+			  
 			  var message = change.doc.data();
+			  console.log(message);
 			  displayMessage_(change.doc.id, message.timestamp, message.name,
                        message.text, message.profilePicUrl, message.imageUrl);
 			  }
