@@ -110,7 +110,6 @@ function loadMessages_() {
 					  .collection('whispers')
 					  .orderBy('timestamp', 'desc')
 					  .limit(12);
-					  console.log(00, query);
   query.onSnapshot(function(snapshot){
 	  console.log(18);
 	  snapshot.docChanges().forEach(function(change){
