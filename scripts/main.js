@@ -74,7 +74,7 @@ function saveMessage_(messageText) {
 	  profilePicUrl: getProfilePicUrl(),
 	  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 	  //여기 추가함
-	  from: "김민수"
+	  to: "김민수"
   }).catch(function(error){
 	  console.error('Error writing new message to Firebase Database', error);
   });
@@ -120,8 +120,9 @@ function loadMessages_() {
 		  deleteMessage(change.doc.id);}
 		  else{
 			  var message = change.doc.data();
-			  displayMessage_(change.doc.id, message.timestamp, message.name,
-                       message.text, message.profilePicUrl, message.imageUrl);
+			  if(message.to=="김민수")
+				  displayMessage_(change.doc.id, message.timestamp, message.name, //여기 밑에 추가함
+                       message.text, message.profilePicUrl, message.imageUrl, "김민수");
 			  }
 	  });
   });
@@ -163,7 +164,9 @@ function saveImageMessage_(file) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+	  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+	  //여기 추가함
+	  to: "김민수"
   }).then(function(messageRef){
 	  //2- Upload the image to Cloud Storage.
 	  var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
@@ -405,60 +408,62 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 	
   messageListElement.scrollTop = messageListElement.scrollHeight;
   messageInputElement.focus();
+  
+  //여기 추가함
+  pic = document.getElementById('pic');
+  pic.addEventListener('click', function(){
+    if(name=="김민수")
+		messageCardElement_.removeAttribute('hidden');
+  });
+  
 }
+//여기 추가함
+var pic;
 
 //여기 추가함
-function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
-	//여기 추가함
-  var pic = document.getElementById('pic');
-  pic.addEventListener('click', function(){
-	  //클릭한 사람이 나이면 그대로 안보이고
-	  //클릭한 사람이 A라면 whispers의 아이디가 A인것만 갖고옴..
-	  //그럴려면 whispers에 속성을 to, from추가
-	  if(id=="김민수"){
-		messageCardElement_.removeAttribute('hidden');
-		var div = document.getElementById(id);
-  
-		if (!div) {
-		  var container = document.createElement('div');
-		  container.innerHTML = MESSAGE_TEMPLATE;
-		  div = container.firstChild;
-		  div.setAttribute('id', id);
-		  div.setAttribute('timestamp', timestamp);
-		  for (var i = 0; i < messageListElement_.children.length; i++) {
-		    var child = messageListElement_.children[i];
-		    var time = child.getAttribute('timestamp');
-		    if (time && time > timestamp) {
-			  break;
-		    }	
-		  }
-		  messageListElement_.insertBefore(div, child);
-		}
-		if (picUrl) {
-		  div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
-		}
-		div.querySelector('.name').textContent = name;
-		var messageElement_ = div.querySelector('.message');
-		if (text) {
-		  messageElement_.textContent = text;
-		  messageElement_.innerHTML = messageElement_.innerHTML.replace(/\n/g, '<br>');
-		} 
-		else if (imageUrl) { 
-		  var image = document.createElement('img');
-		  image.addEventListener('load', function() {
-			messageListElement_.scrollTop = messageListElement_.scrollHeight;
-		  });
-		  image.src = imageUrl + '&' + new Date().getTime();
-		  messageElement_.innerHTML = '';
-		  messageElement_.appendChild(image);
-		}
-		setTimeout(function() {div.classList.add('visible')}, 1);
+function displayMessage_(id, timestamp, name, text, picUrl, imageUrl, to) {
+  var div = document.getElementById(id);
+  if (!div) {
+    var container = document.createElement('div');
+    container.innerHTML = MESSAGE_TEMPLATE;
+    div = container.firstChild;
+    div.setAttribute('id', id);
+    div.setAttribute('timestamp', timestamp);
 	
-		messageListElement_.scrollTop = messageListElement_.scrollHeight;
-		messageInputElement_.focus();
-	  }
-  });
+    for (var i = 0; i < messageListElement_.children.length; i++) {
+		var child = messageListElement_.children[i];
+		var time = child.getAttribute('timestamp');
+		if (time && time > timestamp) {
+			break;
+		}	
+    }
+    messageListElement_.insertBefore(div, child);
+  }
+  if (picUrl) {
+    div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
+  }
+  div.querySelector('.name').textContent = name;
+  var messageElement_ = div.querySelector('.message');
+  if (text) { 
+    messageElement_.textContent = text;
+    messageElement_.innerHTML = messageElement_.innerHTML.replace(/\n/g, '<br>');
+  } 
+  else if (imageUrl) { 
+    var image = document.createElement('img');
+    image.addEventListener('load', function() {
+      messageListElement_.scrollTop = messageListElement_.scrollHeight;
+    });
+    image.src = imageUrl + '&' + new Date().getTime();
+    messageElement_.innerHTML = '';
+    messageElement_.appendChild(image);
+  }
+  setTimeout(function() {div.classList.add('visible')}, 1);
+	
+  messageListElement_.scrollTop = messageListElement_.scrollHeight;
+  messageInputElement_.focus();
+  
 }
+
 
 
 // Enables or disables the submit button depending on the values of the input
