@@ -116,7 +116,7 @@ function loadMessages_() {
 			  deleteMessage(change.doc.id);
 		  else{
 			  var message = change.doc.data();
-			  displayMessage(change.doc.id, message.timestamp, message.name,
+			  displayMessage_(change.doc.id, message.timestamp, message.name,
                        message.text, message.profilePicUrl, message.imageUrl);
 			  }
 	  });
@@ -267,7 +267,6 @@ function onMessageFormSubmit(e) {
   }
   //여기 추가함
   else if (messageInputElement_.value && checkSignedInWithMessage()) {
-	  console.log(messageInputElement_.value);
     saveMessage_(messageInputElement_.value).then(function() {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement_);
@@ -406,6 +405,52 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 	
   messageListElement.scrollTop = messageListElement.scrollHeight;
   messageInputElement.focus();
+}
+
+
+//여기 추가함
+function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
+  var div = document.getElementById(id);
+  // If an element for that message does not exists yet we create it.
+  if (!div) {
+    var container = document.createElement('div');
+    container.innerHTML = MESSAGE_TEMPLATE;
+    div = container.firstChild;
+    div.setAttribute('id', id);
+    div.setAttribute('timestamp', timestamp);
+    for (var i = 0; i < messageListElement_.children.length; i++) {
+		var child = messageListElement_.children[i];
+		var time = child.getAttribute('timestamp');
+		if (time && time > timestamp) {
+			break;
+		}	
+    }
+    messageListElement_.insertBefore(div, child);
+  }
+  if (picUrl) {
+    div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
+	
+  }
+  div.querySelector('.name').textContent = name;
+  var messageElement_ = div.querySelector('.message');
+  if (text) { // If the message is text.
+    messageElement_.textContent = text;
+    // Replace all line breaks by <br>.
+    messageElement_.innerHTML = messageElement_.innerHTML.replace(/\n/g, '<br>');
+  } else if (imageUrl) { // If the message is an image.
+    var image = document.createElement('img');
+    image.addEventListener('load', function() {
+      messageListElement_.scrollTop = messageListElement_.scrollHeight;
+    });
+    image.src = imageUrl + '&' + new Date().getTime();
+    messageElement_.innerHTML = '';
+    messageElement_.appendChild(image);
+  }
+  // Show the card fading-in and scroll to view the new message.
+  setTimeout(function() {div.classList.add('visible')}, 1);
+	
+  messageListElement_.scrollTop = messageListElement_.scrollHeight;
+  messageInputElement_.focus();
 }
 
 //여기 추가함
