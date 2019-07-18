@@ -107,7 +107,7 @@ function loadMessages() {
 //여기 추가함
 function loadMessages_() {
   var query = firebase.firestore()
-					  .collection('whisper')
+					  .collection('whispers')
 					  .orderBy('timestamp', 'desc')
 					  .limit(12);
 					  console.log(00, query);
