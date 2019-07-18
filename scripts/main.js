@@ -410,15 +410,16 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   messageInputElement.focus();
   
   //여기 추가함
-  pic = document.getElementById('pic');
+  var pic = document.getElementById('pic');
   pic.addEventListener('click', function(){
-    if(name=="김민수")
+	toWho = name;
+    if(toWho == "김민수")
 		messageCardElement_.removeAttribute('hidden');
   });
   
 }
 //여기 추가함
-var pic;
+var toWho;
 
 //여기 추가함
 function displayMessage_(id, timestamp, name, text, picUrl, imageUrl, to) {
