@@ -104,6 +104,8 @@ function loadMessages() {
 			  }
 	  });
   });
+  //여기 추가함
+	loadMessages_();
 }
 
 //여기 추가함
@@ -407,62 +409,56 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 
 //여기 추가함
 function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
-  var div = document.getElementById(id);
-  // If an element for that message does not exists yet we create it.
-  if (!div) {
-    var container = document.createElement('div');
-    container.innerHTML = MESSAGE_TEMPLATE;
-    div = container.firstChild;
-    div.setAttribute('id', id);
-    div.setAttribute('timestamp', timestamp);
-    for (var i = 0; i < messageListElement_.children.length; i++) {
-		var child = messageListElement_.children[i];
-		var time = child.getAttribute('timestamp');
-		if (time && time > timestamp) {
-			break;
-		}	
-    }
-    messageListElement_.insertBefore(div, child);
-  }
-  if (picUrl) {
-    div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
-	
-  }
-  div.querySelector('.name').textContent = name;
-  var messageElement_ = div.querySelector('.message');
-  if (text) { // If the message is text.
-    messageElement_.textContent = text;
-    // Replace all line breaks by <br>.
-    messageElement_.innerHTML = messageElement_.innerHTML.replace(/\n/g, '<br>');
-  } else if (imageUrl) { // If the message is an image.
-    var image = document.createElement('img');
-    image.addEventListener('load', function() {
-      messageListElement_.scrollTop = messageListElement_.scrollHeight;
-    });
-    image.src = imageUrl + '&' + new Date().getTime();
-    messageElement_.innerHTML = '';
-    messageElement_.appendChild(image);
-  }
-  // Show the card fading-in and scroll to view the new message.
-  setTimeout(function() {div.classList.add('visible')}, 1);
-	
-  messageListElement_.scrollTop = messageListElement_.scrollHeight;
-  messageInputElement_.focus();
-}
-
-
-//여기 추가함
+	//여기 추가함
   var pic = document.getElementById('pic');
   pic.addEventListener('click', function(){
 	  //클릭한 사람이 나이면 그대로 안보이고
 	  //클릭한 사람이 A라면 whispers의 아이디가 A인것만 갖고옴..
 	  //그럴려면 whispers에 속성을 to, from추가
-	  //if(id=="김민수"){
+	  if(id=="김민수"){
 		messageCardElement_.removeAttribute('hidden');
-		
-	  //}
+		var div = document.getElementById(id);
+  
+		if (!div) {
+		  var container = document.createElement('div');
+		  container.innerHTML = MESSAGE_TEMPLATE;
+		  div = container.firstChild;
+		  div.setAttribute('id', id);
+		  div.setAttribute('timestamp', timestamp);
+		  for (var i = 0; i < messageListElement_.children.length; i++) {
+		    var child = messageListElement_.children[i];
+		    var time = child.getAttribute('timestamp');
+		    if (time && time > timestamp) {
+			  break;
+		    }	
+		  }
+		  messageListElement_.insertBefore(div, child);
+		}
+		if (picUrl) {
+		  div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
+		}
+		div.querySelector('.name').textContent = name;
+		var messageElement_ = div.querySelector('.message');
+		if (text) {
+		  messageElement_.textContent = text;
+		  messageElement_.innerHTML = messageElement_.innerHTML.replace(/\n/g, '<br>');
+		} 
+		else if (imageUrl) { 
+		  var image = document.createElement('img');
+		  image.addEventListener('load', function() {
+			messageListElement_.scrollTop = messageListElement_.scrollHeight;
+		  });
+		  image.src = imageUrl + '&' + new Date().getTime();
+		  messageElement_.innerHTML = '';
+		  messageElement_.appendChild(image);
+		}
+		setTimeout(function() {div.classList.add('visible')}, 1);
+	
+		messageListElement_.scrollTop = messageListElement_.scrollHeight;
+		messageInputElement_.focus();
+	  }
   });
-
+}
 
 
 // Enables or disables the submit button depending on the values of the input
@@ -567,6 +563,3 @@ firestore.settings(settings);
 
 // We load currently existing chat messages and listen to new ones.
 loadMessages();
-
-//여기 추가함
-loadMessages_();
