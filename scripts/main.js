@@ -482,7 +482,7 @@ signOutButtonElement.addEventListener('click', signOut);
 signInButtonElement.addEventListener('click', signIn);
 
 //여기 추가함
-messageFormElement_.addEventListener('submit_', onMessageFormSubmit);
+messageFormElement_.addEventListener('submit', onMessageFormSubmit);
 
 // Toggle for the button.
 messageInputElement.addEventListener('keyup', toggleButton);
