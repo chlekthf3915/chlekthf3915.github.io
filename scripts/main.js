@@ -110,13 +110,15 @@ function loadMessages_() {
 					  .collection('whisper')
 					  .orderBy('timestamp', 'desc')
 					  .limit(12);
+					  console.log(00, query);
   query.onSnapshot(function(snapshot){
+	  console.log(18);
 	  snapshot.docChanges().forEach(function(change){
-		  if(change.type == 'removed')
-			  deleteMessage(change.doc.id);
+		  if(change.type == 'removed'){
+			  console.log(28);
+		  deleteMessage(change.doc.id);}
 		  else{
 			  var message = change.doc.data();
-			  console.log(message);
 			  displayMessage_(change.doc.id, message.timestamp, message.name,
                        message.text, message.profilePicUrl, message.imageUrl);
 			  }
