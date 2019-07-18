@@ -410,7 +410,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 
 //여기 추가함
 function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
-	console.log(id);
+	console.log(id);//
   var div = document.getElementById(id);
   // If an element for that message does not exists yet we create it.
   if (!div) {
