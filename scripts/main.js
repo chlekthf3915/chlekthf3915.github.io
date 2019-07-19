@@ -65,19 +65,18 @@ function saveMessage(messageText) {
 	  console.error('Error writing new message to Firebase Database', error);
   });
 }
-
 //여기 추가함
 function saveMessage_(messageText) {
-  return firebase.firestore().collection('whispers').add({
-	  name: getUserName(),
-	  text: messageText,
-	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-	  //여기 추가함
-	  to: "김민수"
+  return coll.add({
+	name: getUserName(),
+	text: messageText,
+	profilePicUrl: getProfilePicUrl(),
+	timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+	//여기 추가함
+	to: toWho
   }).catch(function(error){
-	  console.error('Error writing new message to Firebase Database', error);
-  });
+	console.error('Error writing new message to Firebase Database', error);
+  });  
 }
 
 // Loads chat messages history and listens for upcoming ones.
@@ -107,26 +106,35 @@ function loadMessages() {
   
 }
 
+
 //여기 추가함
+  var coll;
 function loadMessages_() {
   messageCardElement_.removeAttribute('hidden');
-  var query = firebase.firestore()
-					  .collection('whispers')
-					  //여기 추가함
-					  .where("to", "==", toWho)
-					  .orderBy('timestamp', 'desc')
-					  .limit(12);
+  var str1 = toWho + fromWho;
+  var str2 = fromWho + toWho;
+  var db = firebase.firestore();
+
+  if(db.str1){
+	  coll = db.collection(str1);
+  }
+  else if(db.str2){
+	  coll = db.collection(str2);
+  }
+  else if((db.str1 && db.str2) || !(db.str1 && db.str2)){
+	  coll = db.collection(str1);
+  }
+  var query = coll.orderBy('timestamp', 'desc').limit(12);
   query.onSnapshot(function(snapshot){
-	  snapshot.docChanges().forEach(function(change){
-		if(change.type == 'removed'){
-		  deleteMessage(change.doc.id);}
-		else{
-			console.log(18);
-		  var message = change.doc.data();
-		  displayMessage_(change.doc.id, message.timestamp, message.name, //여기 밑에 추가함
-          message.text, message.profilePicUrl, message.imageUrl, message.to);
-		}
-	  });
+	    snapshot.docChanges().forEach(function(change){
+		  if(change.type == 'removed'){
+		    deleteMessage(change.doc.id);}
+		  else{
+		    var message = change.doc.data();
+		    displayMessage_(change.doc.id, message.timestamp, message.name, //여기 밑에 추가함
+            message.text, message.profilePicUrl, message.imageUrl, message.to);
+		  }
+	    });
   });
 }
 
@@ -162,7 +170,7 @@ function saveImageMessage(file) {
 
 //여기 추가함
 function saveImageMessage_(file) {
-  firebase.firestore().collection('whispers').add({
+  coll.add({
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
@@ -414,13 +422,14 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   //여기 추가함
   var pic = document.getElementById('pic');
   pic.addEventListener('click', function(){
+	fromWho = getUserName();
 	toWho = name;
 	loadMessages_();
   });
   
 }
 //여기 추가함
-var toWho;
+var fromWho, toWho;
 
 //여기 추가함
 function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
