@@ -56,6 +56,7 @@ function isUserSignedIn() {
 function saveMessage(messageText) {
   // TODO 7: Push a new message to Firebase.
   //Add a new message entry to the Firebase database.
+  console.log(firebase.firestore.FieldValue.serverTimestamp());
   return firebase.firestore().collection('messages').add({
 	  name: getUserName(),
 	  text: messageText,
@@ -67,6 +68,8 @@ function saveMessage(messageText) {
 }
 //여기 추가함
 function saveMessage_(messageText) {
+	
+  console.log('savemessag');
   return coll.add({
 	name: getUserName(),
 	text: messageText,
@@ -84,6 +87,7 @@ function loadMessages() {
   // TODO 8: Load and listens for new messages.
   //Create the query to load the last 12 messages and listen for new ones.
   //.collection을 이용해 어떤 컬렉션이 청취할 데이터인지 지정 (우리는 'messages' 컬렉션)
+  
   var query = firebase.firestore()
 					  .collection('messages')
 					  .orderBy('timestamp', 'desc')
@@ -110,20 +114,12 @@ function loadMessages() {
 //여기 추가함
   var coll;
 function loadMessages_() {
-  messageCardElement_.removeAttribute('hidden');
-  var str1 = toWho + fromWho;
-  var str2 = fromWho + toWho;
-  var db = firebase.firestore();
-
-  if(db.str1){
-	  coll = db.collection(str1);
-  }
-  else if(db.str2){
-	  coll = db.collection(str2);
-  }
-  else if((db.str1 && db.str2) || !(db.str1 && db.str2)){
-	  coll = db.collection(str1);
-  }
+	console.log('loadmessag');
+  if(toWho<fromWho)
+	  var str = toWho+fromWho;
+  else 
+	  var str = fromWho+toWho;
+  coll = firebase.firestore().collection(str);  
   var query = coll.orderBy('timestamp', 'desc').limit(12);
   query.onSnapshot(function(snapshot){
 	    snapshot.docChanges().forEach(function(change){
@@ -131,8 +127,10 @@ function loadMessages_() {
 		    deleteMessage(change.doc.id);}
 		  else{
 		    var message = change.doc.data();
-		    displayMessage_(change.doc.id, message.timestamp, message.name, //여기 밑에 추가함
-            message.text, message.profilePicUrl, message.imageUrl, message.to);
+			if(!messageCardElement_.getAttribute('hidden')){
+		      displayMessage_(change.doc.id, message.timestamp, message.name,
+              message.text, message.profilePicUrl, message.imageUrl);
+			}
 		  }
 	    });
   });
@@ -393,6 +391,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 		}	
     }
     messageListElement.insertBefore(div, child);
+	
   }
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
@@ -422,15 +421,30 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   //여기 추가함
   var pic = document.getElementById('pic');
   pic.addEventListener('click', function(){
-	fromWho = getUserName();
-	toWho = name;
-	loadMessages_();
+	if(flag == 1){
+	  messageCardElement_.removeAttribute('hidden');
+	  fromWho = getUserName();
+	  toWho = name;
+	  flag = 0;
+	  loadMessages_();
+	}
+	else{
+	  messageListElement_.innerHTML="";
+	  messageCardElement_.setAttribute('hidden', 'true');
+	  flag = 1;
+	}
   });
   
 }
+
+
+//여기 추가함
+var flag=0;
+
+
+
 //여기 추가함
 var fromWho, toWho;
-
 //여기 추가함
 function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
   var div = document.getElementById(id);
@@ -440,7 +454,6 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
     div = container.firstChild;
     div.setAttribute('id', id);
     div.setAttribute('timestamp', timestamp);
-	
     for (var i = 0; i < messageListElement_.children.length; i++) {
 		var child = messageListElement_.children[i];
 		var time = child.getAttribute('timestamp');
