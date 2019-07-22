@@ -598,7 +598,7 @@ function picevt(ckname) {
 	  }
 	  chatflag = true;
 	  coll = firebase.firestore().collection(str);
-	  console.log(chatlag);
+	  console.log(chatflag);
 	  console.log(coll);
 	}
 	else{
