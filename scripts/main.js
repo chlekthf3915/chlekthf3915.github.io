@@ -56,25 +56,22 @@ function isUserSignedIn() {
 function saveMessage(messageText) {
   // TODO 7: Push a new message to Firebase.
   //Add a new message entry to the Firebase database.
-  console.log(firebase.firestore.FieldValue.serverTimestamp());
   return firebase.firestore().collection('messages').add({
 	  name: getUserName(),
 	  text: messageText,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+	  timestamp: new Date().getTime()
   }).catch(function(error){
 	  console.error('Error writing new message to Firebase Database', error);
   });
 }
 //여기 추가함
 function saveMessage_(messageText) {
-	
-  console.log('savemessag');
   return coll.add({
 	name: getUserName(),
 	text: messageText,
 	profilePicUrl: getProfilePicUrl(),
-	timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+	timestamp: new Date().getTime(),
 	//여기 추가함
 	to: toWho
   }).catch(function(error){
@@ -114,7 +111,6 @@ function loadMessages() {
 //여기 추가함
   var coll;
 function loadMessages_() {
-	console.log('loadmessag');
   if(toWho<fromWho)
 	  var str = toWho+fromWho;
   else 
@@ -147,7 +143,7 @@ function saveImageMessage(file) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+	  timestamp: new Date().getTime()
   }).then(function(messageRef){
 	  //2- Upload the image to Cloud Storage.
 	  var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
@@ -172,7 +168,7 @@ function saveImageMessage_(file) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+	  timestamp: new Date().getTime(),
 	  //여기 추가함
 	  to: toWho
   }).then(function(messageRef){
