@@ -164,7 +164,7 @@ function saveImageMessage_(file,getcoll) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: new Date().getTime(),
+	  timestamp: new Date(),
 	  //여기 추가함
 	  to: toWho
   }).then(function(messageRef){
@@ -385,8 +385,12 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
 		var child = messageListElement.children[i];
 		var time = child.getAttribute('timestamp');
 		if (time && time > timestamp) {
+			console.log("d");
 			break;
 		}	
+		else{
+			console.log("d2");
+			}
     }
     messageListElement.insertBefore(div, child);
 	
