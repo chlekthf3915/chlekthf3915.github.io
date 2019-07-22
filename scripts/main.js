@@ -60,7 +60,7 @@ function saveMessage(messageText) {
 	  name: getUserName(),
 	  text: messageText,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: new Date().getTime()
+	  timestamp: new Date()
   }).catch(function(error){
 	  console.error('Error writing new message to Firebase Database', error);
   });
@@ -71,7 +71,7 @@ function saveMessage_(messageText) {
 	name: getUserName(),
 	text: messageText,
 	profilePicUrl: getProfilePicUrl(),
-	timestamp: new Date().getTime(),
+	timestamp: new Date(),
 	//여기 추가함
 	to: toWho
   }).catch(function(error){
@@ -143,7 +143,7 @@ function saveImageMessage(file) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: new Date().getTime()
+	  timestamp: new Date()
   }).then(function(messageRef){
 	  //2- Upload the image to Cloud Storage.
 	  var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
@@ -168,7 +168,7 @@ function saveImageMessage_(file) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: new Date().getTime(),
+	  timestamp: new Date(),
 	  //여기 추가함
 	  to: toWho
   }).then(function(messageRef){
