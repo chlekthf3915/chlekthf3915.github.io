@@ -110,8 +110,9 @@ function loadMessages() {
 
 //여기 추가함
 function loadMessages_() {
+  console.log("1");
 		if(chatflag){
-			  
+			  console.log("2");
 			  var query = coll.orderBy('timestamp', 'desc').limit(12);
 			  query.onSnapshot(function(snapshot){
 					snapshot.docChanges().forEach(function(change){
