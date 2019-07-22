@@ -438,7 +438,7 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
     div = container.firstChild;
     div.setAttribute('id', id);
     div.setAttribute('timestamp', timestamp);
-    for (var i = 0; i <= messageListElement_.children.length; i++) {
+    for (var i = 0; i < messageListElement_.children.length; i++) {
 					var child = messageListElement_.children[i];
 					var time = child.getAttribute('timestamp');
 					console.log(time);
@@ -614,4 +614,4 @@ function picevt(ckname) {
 	}
   }
 
-  console.log("변경됨222222");
+  console.log("변경됨3333333333");
