@@ -71,7 +71,7 @@ function saveMessage_(messageText) {
 	name: getUserName(),
 	text: messageText,
 	profilePicUrl: getProfilePicUrl(),
-	timestamp: new Date().getTime(),
+	timestamp: new Date(),
 	//여기 추가함
 	to: toWho
   }).catch(function(error){
