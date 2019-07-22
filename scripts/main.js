@@ -593,7 +593,7 @@ function picevt(ckname) {
 				  str = toWho+fromWho;
      else 
 				  str = fromWho+toWho;
-	  chatflag = ture;
+	  chatflag = true;
 	  coll = firebase.firestore().collection(str);
 	  
 	}
@@ -604,3 +604,5 @@ function picevt(ckname) {
 	  chatflag =false;
 	}
   }
+
+  console.log("변경됨");
