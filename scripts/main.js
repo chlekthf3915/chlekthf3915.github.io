@@ -585,7 +585,7 @@ function picevt(ckname) {
 	if(flag == 1){
 	  messageCardElement_.removeAttribute('hidden');
 	  fromWho = getUserName();
-	  toWho = ckname;
+	  toWho = ckname.textContent;
 	  flag = 0;
 	  loadMessages_();
 	}
