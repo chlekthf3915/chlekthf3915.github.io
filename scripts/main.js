@@ -344,14 +344,14 @@ function resetMaterialTextfield(element) {
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
 											//여기 추가함 (id)
-      '<div class="spacing"><div class="pic" id="pic" onclick= "picevt(this.parentNode.nextSibling.nextSibling);"></div></div>' +
+      '<div class="spacing"><div class="pic"  onclick= "picevt(this.parentNode.nextSibling.nextSibling);"></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
 var MESSAGE_TEMPLATE2 =
     '<div class="message-container">' +
 											//여기 추가함 (id)
-      '<div class="spacing"><div class="pic" id="pic"></div></div>' +
+      '<div class="spacing"><div class="pic" ></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
