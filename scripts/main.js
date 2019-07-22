@@ -590,13 +590,16 @@ function picevt(ckname) {
 	  toWho = ckname.textContent;
 	  flag = 0;
 	  var str;
-	  if(toWho<fromWho)
+	  if(toWho<fromWho){
 				  str = toWho+fromWho;
-     else 
+				  }
+     else {
 				  str = fromWho+toWho;
+	  }
 	  chatflag = true;
 	  coll = firebase.firestore().collection(str);
-	  
+	  console.log(chatlag);
+	  console.log(coll);
 	}
 	else{
 	  messageListElement_.innerHTML="";
