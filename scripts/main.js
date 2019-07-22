@@ -451,6 +451,7 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
 						console.log("d2");
 						}
 						console.log(i);
+
     }
 	console.log(child);
     messageListElement_.insertBefore(div, child);
@@ -607,11 +608,10 @@ function picevt(ckname) {
 	  
 	}
 	else{
-	  messageListElement_.innerHTML="";
 	  messageCardElement_.setAttribute('hidden', 'true');
 	  flag = 1;
 	
 	}
   }
 
-  console.log("변경됨3333333333");
+  console.log("변경됨2222222");
