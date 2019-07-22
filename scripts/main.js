@@ -578,7 +578,8 @@ loadMessages();
 
 //여기 추가함
   var pic = document.getElementById('pic');
-  pic.addEventListener('click', function(){
+  pic.addEventListener('click', function(e){
+   e.preventDefault();
 	if(flag == 1){
 	  messageCardElement_.removeAttribute('hidden');
 	  fromWho = getUserName();
