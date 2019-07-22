@@ -208,7 +208,7 @@ main, #messages-card {
 
 /* 밑에는 내가 추가한 것들 */
 main, #messages-card_ {
-  height: 50%;
+  height: 100%;
   padding-bottom: 0;
 }
 #message-form_ .mdl-textfield {
