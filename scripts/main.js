@@ -118,6 +118,7 @@ function loadMessages_(getcoll) {
 						deleteMessage(change.doc.id);}
 					  else{
 						var message = change.doc.data();
+						console.log(message);
 						if(!messageCardElement_.getAttribute('hidden')){
 						  displayMessage_(change.doc.id, message.timestamp, message.name,
 						  message.text, message.profilePicUrl, message.imageUrl);
@@ -437,7 +438,7 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
     div = container.firstChild;
     div.setAttribute('id', id);
     div.setAttribute('timestamp', timestamp);
-    for (var i = 0; i < messageListElement_.children.length; i++) {
+    for (var i = 0; i < messageListElement_.children.length-1; i++) {
 					var child = messageListElement_.children[i];
 					var time = child.getAttribute('timestamp');
 					console.log(time);
@@ -612,4 +613,4 @@ function picevt(ckname) {
 	}
   }
 
-  console.log("변경됨333");
+  console.log("변경됨2323");
