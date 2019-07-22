@@ -66,8 +66,8 @@ function saveMessage(messageText) {
   });
 }
 //여기 추가함
-function saveMessage_(messageText) {
-  return coll.add({
+function saveMessage_(messageText,getcoll) {
+  return  firebase.firestore().collection(getcoll).add({
 	name: getUserName(),
 	text: messageText,
 	profilePicUrl: getProfilePicUrl(),
@@ -109,11 +109,9 @@ function loadMessages() {
 
 
 //여기 추가함
-function loadMessages_() {
-  console.log("1");
-		if(chatflag){
-			  console.log("2");
-			  var query = coll.orderBy('timestamp', 'desc').limit(12);
+function loadMessages_(getcoll) {
+ 
+			  var query =  firebase.firestore().collection(getcoll).orderBy('timestamp', 'desc').limit(12);
 			  query.onSnapshot(function(snapshot){
 					snapshot.docChanges().forEach(function(change){
 					  if(change.type == 'removed'){
@@ -127,7 +125,7 @@ function loadMessages_() {
 					  }
 					});
 			  });
-		}
+		
 }
 
 // Saves a new message containing an image in Firebase.
@@ -161,8 +159,8 @@ function saveImageMessage(file) {
 }
 
 //여기 추가함
-function saveImageMessage_(file) {
-  coll.add({
+function saveImageMessage_(file,getcoll) {
+  firebase.firestore().collection(getcoll).add({
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
@@ -259,7 +257,7 @@ function onMediaFileSelected_(event) {
   }
   // Check if the user is signed-in
   if (checkSignedInWithMessage()) {
-    saveImageMessage_(file);
+    saveImageMessage_(file,str);
   }
 }
 
@@ -276,7 +274,7 @@ function onMessageFormSubmit(e) {
   }
   //여기 추가함
   else if (messageInputElement_.value && checkSignedInWithMessage()) {
-    saveMessage_(messageInputElement_.value).then(function() {
+    saveMessage_(messageInputElement_.value,str).then(function() {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement_);
       toggleButton_();
@@ -577,11 +575,10 @@ initFirebaseAuth();
 
 // We load currently existing chat messages and listen to new ones.
 loadMessages();
-//여기 추가함
- loadMessages_();
 
-var chatflag = false;
-var coll =null;
+
+
+var str =null;
 //여기 추가함
 function picevt(ckname) {
 	if(flag == 1){
@@ -589,24 +586,23 @@ function picevt(ckname) {
 	  fromWho = getUserName();
 	  toWho = ckname.textContent;
 	  flag = 0;
-	  var str;
+	  
 	  if(toWho<fromWho){
 				  str = toWho+fromWho;
 				  }
      else {
 				  str = fromWho+toWho;
 	  }
-	  chatflag = true;
-	  coll = firebase.firestore().collection(str);
-	  console.log(chatflag);
-	  console.log(coll);
+		//여기 추가함
+		loadMessages_(str);
+	  
 	}
 	else{
 	  messageListElement_.innerHTML="";
 	  messageCardElement_.setAttribute('hidden', 'true');
 	  flag = 1;
-	  chatflag =false;
+	
 	}
   }
 
-  console.log("변경됨");
+  console.log("변경됨1");
