@@ -440,6 +440,8 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
     for (var i = 0; i < messageListElement_.children.length; i++) {
 		var child = messageListElement_.children[i];
 		var time = child.getAttribute('timestamp');
+		console.log(time);
+		console.log(timestamp);
 		if (time && time > timestamp) {
 			break;
 		}	
@@ -605,4 +607,4 @@ function picevt(ckname) {
 	}
   }
 
-  console.log("변경됨1");
+  console.log("변경됨2");
