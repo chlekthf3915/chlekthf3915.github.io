@@ -110,12 +110,9 @@ function loadMessages() {
 
 //여기 추가함
 function loadMessages_() {
-		if( chatflag ){
-			  if(toWho<fromWho)
-				  var str = toWho+fromWho;
-			  else 
-				  var str = fromWho+toWho;
-			  var query = firebase.firestore().collection(str).coll.orderBy('timestamp', 'desc').limit(12);
+		if(chatflag){
+			  
+			  var query = coll.orderBy('timestamp', 'desc').limit(12);
 			  query.onSnapshot(function(snapshot){
 					snapshot.docChanges().forEach(function(change){
 					  if(change.type == 'removed'){
@@ -583,6 +580,7 @@ loadMessages();
  loadMessages_();
 
 var chatflag = false;
+var coll =null;
 //여기 추가함
 function picevt(ckname) {
 	if(flag == 1){
@@ -590,11 +588,19 @@ function picevt(ckname) {
 	  fromWho = getUserName();
 	  toWho = ckname.textContent;
 	  flag = 0;
-	  chatflag = true;
+	  var str;
+	  if(toWho<fromWho)
+				  str = toWho+fromWho;
+     else 
+				  str = fromWho+toWho;
+	  chatflag = ture;
+	  coll = firebase.firestore().collection(str);
+	  
 	}
 	else{
 	  messageListElement_.innerHTML="";
 	  messageCardElement_.setAttribute('hidden', 'true');
 	  flag = 1;
+	  chatflag =false;
 	}
   }
