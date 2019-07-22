@@ -71,7 +71,7 @@ function saveMessage_(messageText) {
 	name: getUserName(),
 	text: messageText,
 	profilePicUrl: getProfilePicUrl(),
-	timestamp: new Date(),
+	timestamp: new Date().getTime(),
 	//여기 추가함
 	to: toWho
   }).catch(function(error){
@@ -143,7 +143,7 @@ function saveImageMessage(file) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: new Date()
+	  timestamp: new Date().getTime()
   }).then(function(messageRef){
 	  //2- Upload the image to Cloud Storage.
 	  var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
@@ -168,7 +168,7 @@ function saveImageMessage_(file) {
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: new Date(),
+	  timestamp: new Date().getTime(),
 	  //여기 추가함
 	  to: toWho
   }).then(function(messageRef){
@@ -414,22 +414,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   messageListElement.scrollTop = messageListElement.scrollHeight;
   messageInputElement.focus();
   
-  //여기 추가함
-  var pic = document.getElementById('pic');
-  pic.addEventListener('click', function(){
-	if(flag == 1){
-	  messageCardElement_.removeAttribute('hidden');
-	  fromWho = getUserName();
-	  toWho = name;
-	  flag = 0;
-	  loadMessages_();
-	}
-	else{
-	  messageListElement_.innerHTML="";
-	  messageCardElement_.setAttribute('hidden', 'true');
-	  flag = 1;
-	}
-  });
+  
   
 }
 
@@ -588,3 +573,22 @@ firestore.settings(settings);
 
 // We load currently existing chat messages and listen to new ones.
 loadMessages();
+
+
+
+//여기 추가함
+  var pic = document.getElementById('pic');
+  pic.addEventListener('click', function(){
+	if(flag == 1){
+	  messageCardElement_.removeAttribute('hidden');
+	  fromWho = getUserName();
+	  toWho = name;
+	  flag = 0;
+	  loadMessages_();
+	}
+	else{
+	  messageListElement_.innerHTML="";
+	  messageCardElement_.setAttribute('hidden', 'true');
+	  flag = 1;
+	}
+  });
