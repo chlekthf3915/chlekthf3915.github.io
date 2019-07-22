@@ -111,11 +111,7 @@ function loadMessages() {
 //여기 추가함
   var coll;
 function loadMessages_() {
-  if(toWho<fromWho)
-	  var str = toWho+fromWho;
-  else 
-	  var str = fromWho+toWho;
-  coll = firebase.firestore().collection(str);  
+  
   var query = coll.orderBy('timestamp', 'desc').limit(12);
   query.onSnapshot(function(snapshot){
 	    snapshot.docChanges().forEach(function(change){
@@ -123,10 +119,9 @@ function loadMessages_() {
 		    deleteMessage(change.doc.id);}
 		  else{
 		    var message = change.doc.data();
-			if(!messageCardElement_.getAttribute('hidden')){
 		      displayMessage_(change.doc.id, message.timestamp, message.name,
               message.text, message.profilePicUrl, message.imageUrl);
-			}
+			
 		  }
 	    });
   });
@@ -449,6 +444,7 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
 		}	
     }
     messageListElement_.insertBefore(div, child);
+	console.log(div, child);
   }
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
@@ -585,13 +581,19 @@ function picevt(ckname) {
 	if(flag == 1){
 	  messageCardElement_.removeAttribute('hidden');
 	  fromWho = getUserName();
-	  toWho = ckname;
+	  toWho = ckname.textContent;
 	  flag = 0;
-	  loadMessages_();
+	  
+	  if(toWho<fromWho)
+	  var str = toWho+fromWho;
+  else 
+	  var str = fromWho+toWho;
+  coll = firebase.firestore().collection(str);  
+  loadMessages_();
 	}
 	else{
-	  messageListElement_.innerHTML="";
 	  messageCardElement_.setAttribute('hidden', 'true');
 	  flag = 1;
 	}
+	
   }
