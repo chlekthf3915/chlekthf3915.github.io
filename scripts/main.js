@@ -344,11 +344,17 @@ function resetMaterialTextfield(element) {
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
 											//여기 추가함 (id)
+      '<div class="spacing"><div class="pic" id="pic" onclick= "picevt(this.parentNode.nextSibling.nextSibling);"></div></div>' +
+      '<div class="message"></div>' +
+      '<div class="name"></div>' +
+    '</div>';
+var MESSAGE_TEMPLATE2 =
+    '<div class="message-container">' +
+											//여기 추가함 (id)
       '<div class="spacing"><div class="pic" id="pic"></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
-
 // Adds a size to Google Profile pics URLs.
 function addSizeToGoogleProfilePic(url) {
   if (url.indexOf('googleusercontent.com') !== -1 && url.indexOf('?') === -1) {
@@ -431,7 +437,7 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
   var div = document.getElementById(id);
   if (!div) {
     var container = document.createElement('div');
-    container.innerHTML = MESSAGE_TEMPLATE;
+    container.innerHTML = MESSAGE_TEMPLATE2;
     div = container.firstChild;
     div.setAttribute('id', id);
     div.setAttribute('timestamp', timestamp);
@@ -574,16 +580,12 @@ firestore.settings(settings);
 // We load currently existing chat messages and listen to new ones.
 loadMessages();
 
-
-
 //여기 추가함
-  var pic = document.getElementById('pic');
-  pic.addEventListener('click', function(e){
-   e.preventDefault();
+function picevt(ckname) {
 	if(flag == 1){
 	  messageCardElement_.removeAttribute('hidden');
 	  fromWho = getUserName();
-	  toWho = name;
+	  toWho = ckname;
 	  flag = 0;
 	  loadMessages_();
 	}
@@ -592,4 +594,4 @@ loadMessages();
 	  messageCardElement_.setAttribute('hidden', 'true');
 	  flag = 1;
 	}
-  });
+  }
