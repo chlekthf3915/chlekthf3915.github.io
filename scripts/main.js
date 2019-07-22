@@ -384,13 +384,9 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     for (var i = 0; i < messageListElement.children.length; i++) {
 		var child = messageListElement.children[i];
 		var time = child.getAttribute('timestamp');
-		if (time && time > timestamp) {
-			console.log("d");
+			if (time && time > timestamp) {
 			break;
 		}	
-		else{
-			console.log("d2");
-			}
     }
     messageListElement.insertBefore(div, child);
 	
@@ -446,9 +442,13 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
 		var time = child.getAttribute('timestamp');
 		console.log(time);
 		console.log(timestamp);
-		if (time && time > timestamp) {
+	if (time && time > timestamp) {
+			console.log("d");
 			break;
 		}	
+		else{
+			console.log("d2");
+			}
     }
     messageListElement_.insertBefore(div, child);
   }
@@ -611,4 +611,4 @@ function picevt(ckname) {
 	}
   }
 
-  console.log("변경됨2");
+  console.log("변경됨44");
