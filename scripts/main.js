@@ -66,12 +66,12 @@ function saveMessage(messageText) {
   });
 }
 //여기 추가함
-function saveMessage_(messageText) {
-  return coll.add({
+function saveMessage_(messageText,getcoll) {
+  return  firebase.firestore().collection(getcoll).add({
 	name: getUserName(),
 	text: messageText,
 	profilePicUrl: getProfilePicUrl(),
-	timestamp: new Date().getTime(),
+	timestamp: new Date(),
 	//여기 추가함
 	to: toWho
   }).catch(function(error){
@@ -109,22 +109,23 @@ function loadMessages() {
 
 
 //여기 추가함
-  var coll;
-function loadMessages_() {
-  
-  var query = coll.orderBy('timestamp', 'desc').limit(12);
-  query.onSnapshot(function(snapshot){
-	    snapshot.docChanges().forEach(function(change){
-		  if(change.type == 'removed'){
-		    deleteMessage(change.doc.id);}
-		  else{
-		    var message = change.doc.data();
-		      displayMessage_(change.doc.id, message.timestamp, message.name,
-              message.text, message.profilePicUrl, message.imageUrl);
-			
-		  }
-	    });
-  });
+function loadMessages_(getcoll) {
+ 
+			  var query =  firebase.firestore().collection(getcoll).orderBy('timestamp', 'desc').limit(12);
+			  query.onSnapshot(function(snapshot){
+					snapshot.docChanges().forEach(function(change){
+					  if(change.type == 'removed'){
+						deleteMessage(change.doc.id);}
+					  else{
+						var message = change.doc.data();
+						if(!messageCardElement_.getAttribute('hidden')){
+						  displayMessage_(change.doc.id, message.timestamp, message.name,
+						  message.text, message.profilePicUrl, message.imageUrl);
+						}
+					  }
+					});
+			  });
+		
 }
 
 // Saves a new message containing an image in Firebase.
@@ -158,12 +159,12 @@ function saveImageMessage(file) {
 }
 
 //여기 추가함
-function saveImageMessage_(file) {
-  coll.add({
+function saveImageMessage_(file,getcoll) {
+  firebase.firestore().collection(getcoll).add({
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
-	  timestamp: new Date().getTime(),
+	  timestamp: new Date(),
 	  //여기 추가함
 	  to: toWho
   }).then(function(messageRef){
@@ -256,7 +257,7 @@ function onMediaFileSelected_(event) {
   }
   // Check if the user is signed-in
   if (checkSignedInWithMessage()) {
-    saveImageMessage_(file);
+    saveImageMessage_(file,str);
   }
 }
 
@@ -273,7 +274,7 @@ function onMessageFormSubmit(e) {
   }
   //여기 추가함
   else if (messageInputElement_.value && checkSignedInWithMessage()) {
-    saveMessage_(messageInputElement_.value).then(function() {
+    saveMessage_(messageInputElement_.value,str).then(function() {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement_);
       toggleButton_();
@@ -339,14 +340,14 @@ function resetMaterialTextfield(element) {
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
 											//여기 추가함 (id)
-      '<div class="spacing"><div class="pic" id="pic" onclick= "picevt(this.parentNode.nextSibling.nextSibling);"></div></div>' +
+      '<div class="spacing"><div class="pic"  onclick= "picevt(this.parentNode.nextSibling.nextSibling);"></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
 var MESSAGE_TEMPLATE2 =
     '<div class="message-container">' +
 											//여기 추가함 (id)
-      '<div class="spacing"><div class="pic" id="pic"></div></div>' +
+      '<div class="spacing"><div class="pic" ></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
@@ -383,7 +384,7 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
     for (var i = 0; i < messageListElement.children.length; i++) {
 		var child = messageListElement.children[i];
 		var time = child.getAttribute('timestamp');
-		if (time && time > timestamp) {
+			if (time && time > timestamp) {
 			break;
 		}	
     }
@@ -437,12 +438,14 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
     div.setAttribute('id', id);
     div.setAttribute('timestamp', timestamp);
     for (var i = 0; i < messageListElement_.children.length; i++) {
-		var child = messageListElement_.children[i];
-		var time = child.getAttribute('timestamp');
-		if (time && time > timestamp) {
-			break;
-		}	
+					var child = messageListElement_.children[i];
+					var time = child.getAttribute('timestamp');
+				if (time && time > timestamp) {
+						break;
+					}
+
     }
+	console.log(div, child);
     messageListElement_.insertBefore(div, child);
   }
   if (picUrl) {
@@ -566,15 +569,18 @@ mediaCaptureElement_.addEventListener('change', onMediaFileSelected_);
 initFirebaseAuth();
 
 // Remove the warning about timstamps change. 
-var firestore = firebase.firestore();
-var settings = {}; //timestampsInSnapshots: true};
-firestore.settings(settings);
+//var firestore = firebase.firestore();
+//var settings = {}; //timestampsInSnapshots: true};
+//firestore.settings(settings);
 
 // TODO: Enable Firebase Performance Monitoring.
 
 // We load currently existing chat messages and listen to new ones.
 loadMessages();
 
+
+
+var str =null;
 //여기 추가함
 function picevt(ckname) {
 	if(flag == 1){
@@ -583,16 +589,21 @@ function picevt(ckname) {
 	  toWho = ckname.textContent;
 	  flag = 0;
 	  
-	  if(toWho<fromWho)
-	  var str = toWho+fromWho;
-  else 
-	  var str = fromWho+toWho;
-  coll = firebase.firestore().collection(str);  
-  loadMessages_();
+	  if(toWho<fromWho){
+				  str = toWho+fromWho;
+				  }
+     else {
+				  str = fromWho+toWho;
+	  }
+		//여기 추가함
+		loadMessages_(str);
+	  
 	}
 	else{
+		 //messageListElement_.setAttribute('visible', 'false');
 	  messageCardElement_.setAttribute('hidden', 'true');
+	 messageListElement_.innerHTML='<span id="message-filler_"></span>';
 	  flag = 1;
+	  
 	}
-	
   }
