@@ -444,6 +444,7 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
 		}	
     }
     messageListElement_.insertBefore(div, child);
+	console.log(div, child);
   }
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
