@@ -431,7 +431,6 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
 					}
 
     }
-	console.log(div, child);
     messageListElement_.insertBefore(div, child);
   }
   if (picUrl) {
