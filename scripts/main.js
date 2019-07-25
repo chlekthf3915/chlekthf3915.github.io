@@ -53,10 +53,11 @@ function isUserSignedIn() {
 }
 
 // Saves a new message on the Firebase DB.
-function saveMessage(messageText) {
+function saveMessage(messageText, getcoll) {
   // TODO 7: Push a new message to Firebase.
   //Add a new message entry to the Firebase database.
-  return firebase.firestore().collection('messages').add({
+  //어떤 collection인지 getcoll값으로 구분하여 db에 저장
+  return firebase.firestore().collection(getcoll).add({
 	  name: getUserName(),
 	  text: messageText,
 	  profilePicUrl: getProfilePicUrl(),
@@ -65,25 +66,12 @@ function saveMessage(messageText) {
 	  console.error('Error writing new message to Firebase Database', error);
   });
 }
-//여기 추가함
-function saveMessage_(messageText,getcoll) {
-  return  firebase.firestore().collection(getcoll).add({
-	name: getUserName(),
-	text: messageText,
-	profilePicUrl: getProfilePicUrl(),
-	timestamp: new Date(),
-	//여기 추가함
-	to: toWho
-  }).catch(function(error){
-	console.error('Error writing new message to Firebase Database', error);
-  });  
-}
 
 // Loads chat messages history and listens for upcoming ones.
 function loadMessages() {
   // TODO 8: Load and listens for new messages.
   //Create the query to load the last 12 messages and listen for new ones.
-  //.collection을 이용해 어떤 컬렉션이 청취할 데이터인지 지정 (우리는 'messages' 컬렉션)
+  //메인 대화창에서 어떤 컬렉션의 청취할 데이터인지 지정 (timestamp값을 기준으로 정렬)
   
   var query = firebase.firestore()
 					  .collection('messages')
@@ -91,9 +79,9 @@ function loadMessages() {
 					  .limit(12);
 					  
   //Start listening to the query.
-  //.onSnapshot는 쿼리와 일치하는 문서가 변경되면 콜백함수가 트리거됨
+  //.onSnapshot 쿼리문에 일치하는 문서를 사진찍듯이 특정 시점...
+  //snapshot의 db의 문서가 변경 될때마다 forEach
   query.onSnapshot(function(snapshot){
-//	  var obj = [];
 	  snapshot.docChanges().forEach(function(change){
 		  if(change.type == 'removed')
 			  deleteMessage(change.doc.id);
@@ -108,25 +96,24 @@ function loadMessages() {
 }
 
 
-//여기 추가함
+//귓속말
 function loadMessages_(getcoll) {
- 
-			  var query =  firebase.firestore().collection(getcoll).orderBy('timestamp', 'desc').limit(12);
-			  query.onSnapshot(function(snapshot){
-					snapshot.docChanges().forEach(function(change){
-					  if(change.type == 'removed'){
-						deleteMessage(change.doc.id);}
-					  else{
-						var message = change.doc.data();
-						if(!messageCardElement_.getAttribute('hidden')){
-						  displayMessage_(change.doc.id, message.timestamp, message.name,
-						  message.text, message.profilePicUrl, message.imageUrl);
-						}
-					  }
-					});
-			  });
-		
+	var query =  firebase.firestore().collection(getcoll).orderBy('timestamp', 'desc').limit(12);
+	query.onSnapshot(function(snapshot){
+		snapshot.docChanges().forEach(function(change){
+			if(change.type == 'removed'){
+				deleteMessage(change.doc.id);}
+			else{
+				var message = change.doc.data();
+				if(!messageCardElement_.getAttribute('hidden')){
+					displayMessage_(change.doc.id, message.timestamp, message.name,
+					message.text, message.profilePicUrl, message.imageUrl);
+				}
+			}
+		});
+	});	
 }
+
 
 // Saves a new message containing an image in Firebase.
 // This first saves the image in Firebase storage.
@@ -158,22 +145,20 @@ function saveImageMessage(file) {
   });
 }
 
-//여기 추가함
+//귓속말
+//어떤 collection인지 getcoll값으로 구분하여 db에 저장
+//상대방 to 필드 추가
 function saveImageMessage_(file,getcoll) {
   firebase.firestore().collection(getcoll).add({
 	  name: getUserName(),
 	  imageUrl: LOADING_IMAGE_URL,
 	  profilePicUrl: getProfilePicUrl(),
 	  timestamp: new Date(),
-	  //여기 추가함
 	  to: toWho
   }).then(function(messageRef){
-	  //2- Upload the image to Cloud Storage.
 	  var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
 	  return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot) {
-		  //3- Generate a public URL for the file.
 		  return fileSnapshot.ref.getDownloadURL().then((url) => {
-			  //4- Update the chat message placeholder with the image's URL.
 			  return messageRef.update({
 				  imageUrl: url,
 				  storageUri: fileSnapshot.metadata.fullPath
@@ -219,7 +204,7 @@ function requestNotificationsPermissions() {
 function onMediaFileSelected(event) {
   event.preventDefault();
   var file = event.target.files[0];
-
+  
   // Clear the selection in the file picker input.
   imageFormElement.reset();
 
@@ -266,7 +251,8 @@ function onMessageFormSubmit(e) {
   e.preventDefault();
   // Check that the user entered a message and is signed in.
   if (messageInputElement.value && checkSignedInWithMessage()) {
-    saveMessage(messageInputElement.value).then(function() {
+	  str = 'messages';
+	  saveMessage(messageInputElement.value, str).then(function() {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement);
       toggleButton();
@@ -274,7 +260,7 @@ function onMessageFormSubmit(e) {
   }
   //여기 추가함
   else if (messageInputElement_.value && checkSignedInWithMessage()) {
-    saveMessage_(messageInputElement_.value,str).then(function() {
+    saveMessage(messageInputElement_.value, str).then(function() {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement_);
       toggleButton_();
@@ -445,6 +431,7 @@ function displayMessage_(id, timestamp, name, text, picUrl, imageUrl) {
 					}
 
     }
+	console.log(div, child);
     messageListElement_.insertBefore(div, child);
   }
   if (picUrl) {
@@ -562,7 +549,7 @@ imageButtonElement_.addEventListener('click', function(e) {
   e.preventDefault();
   mediaCaptureElement_.click();
 });
-mediaCaptureElement_.addEventListener('change', onMediaFileSelected_);
+mediaCaptureElement_.addEventListener('change', onMediaFileSelected);
 
 // initialize Firebase
 initFirebaseAuth();
@@ -582,6 +569,7 @@ loadMessages();
 var str =null;
 //여기 추가함
 function picevt(ckname) {
+	checkSignedInWithMessage();
 	if(flag == 1){
 	  messageCardElement_.removeAttribute('hidden');
 	  fromWho = getUserName();
